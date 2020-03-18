@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   firebase: {
+    apiKey: 'AIzaSyCog_vQawDu2eLq2iZW-PTIxwolNtAC3Iw',
     authDomain: 'goalsplanner-f1316.firebaseapp.com',
     databaseURL: 'https://goalsplanner-f1316.firebaseio.com',
     projectId: 'goalsplanner-f1316',
