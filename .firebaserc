@@ -1,5 +1,11 @@
 {
-  "projects": {
-    "default": "goalsplanner-f1316"
+  "targets": {
+    "goalsplanner-f1316": {
+      "hosting": {
+        "GoalsPlanner": [
+          "goalsplanner-f1316"
+        ]
+      }
+    }
   }
 }
