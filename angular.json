@@ -133,5 +133,8 @@
       }
     }
   },
-  "defaultProject": "GoalsPlanner"
+  "defaultProject": "GoalsPlanner",
+  "cli": {
+    "analytics": "c31188e5-4007-491a-9793-5efe6f4f181c"
+  }
 }
