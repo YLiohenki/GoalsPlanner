@@ -12,6 +12,7 @@ import { StoreModule } from '@ngrx/store';
 import { HttpClientModule } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { ActivitiesEffect } from 'src/model/store/activities/activities.effect';
+import { appReducers } from 'src/model/store/reducers';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { ActivitiesEffect } from 'src/model/store/activities/activities.effect';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     HttpClientModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([ActivitiesEffect]),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

@@ -5,7 +5,7 @@ export class QuerySnapshotToActivites {
     public static Map(collection: QuerySnapshot<DocumentData>): Activity[] {
         return collection.docs.map((doc: QueryDocumentSnapshot<DocumentData>) => {
             var docData = doc.data();
-            return new Activity(docData.Name, doc.id);
+            return new Activity(docData.name, doc.id);
         });
     }
 }

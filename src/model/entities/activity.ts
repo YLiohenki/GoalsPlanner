@@ -1,3 +1,3 @@
 export class Activity {
-    constructor(public Name: string, public Id: string) {}
+    constructor(public name: string, public id: string) {}
 }

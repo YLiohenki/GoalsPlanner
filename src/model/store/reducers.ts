@@ -1,6 +1,7 @@
-import { ActionReducerMap } from '@ngrx/store';
+import { ActionReducerMap, Action } from '@ngrx/store';
+import { IStoreState } from './state';
+import { activitiesReducer } from './activities/activities.reducer';
 
 export const appReducers: ActionReducerMap<IStoreState, Action> = {
-    houses: housesReducer,
-    characters: charactersReducer
+    activities: activitiesReducer
   };

@@ -4,6 +4,7 @@ import { Activity } from './../../entities/activity';
 export enum ActivitiesActionTypes {
   LoadActivities = "[Activities] Load Activities",
   LoadActivitiesSuccess = "[Activities] Load Activities Success",
+  LoadActivitiesFailure = "[Activities] Load Activities Failure"
 }
 
 export class LoadActivitiesAction implements Action {
@@ -18,4 +19,10 @@ export class LoadActivitiesSuccessAction implements Action {
   constructor(public payload: { activities: Activity[] }) {}
 }
 
-export type ActivitiesAction = LoadActivitiesAction | LoadActivitiesSuccessAction;
+export class LoadActivitiesFailureAction implements Action {
+  public readonly type: ActivitiesActionTypes.LoadActivitiesFailure =
+    ActivitiesActionTypes.LoadActivitiesFailure;
+  constructor(public payload: { error: Activity[] }) {}
+}
+
+export type ActivitiesAction = LoadActivitiesAction | LoadActivitiesSuccessAction | LoadActivitiesFailureAction;
