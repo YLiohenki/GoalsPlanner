@@ -1,0 +1,14 @@
+<div class="addActivityModal" [ngClass]="{ show: show }">
+  <div class="body">
+    <header>
+      <h3>Add Activity</h3>
+      <a class="close" (click)="CloseModal()"></a>
+    </header>
+    <div class="body">
+      <div class="row">
+        <input name="name" type="text" placeholder="Name" [(ngModel)]="name" />
+      </div>
+    </div>
+    <div class="control"><button (click)="Create()">Create</button></div>
+  </div>
+</div>

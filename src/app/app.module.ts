@@ -13,22 +13,27 @@ import { HttpClientModule } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { ActivitiesEffect } from 'src/model/store/activities/activities.effect';
 import { appReducers } from 'src/model/store/reducers';
+import { AddActivityComponent } from './components/add-activity/add-activity.component';
+import { AddActivityFacadeService } from './components/add-activity/add-activity-facade.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    AddActivityComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     HttpClientModule,
+    FormsModule,
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([ActivitiesEffect]),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [],
+  providers: [AddActivityFacadeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

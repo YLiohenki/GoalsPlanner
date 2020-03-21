@@ -1,8 +1,9 @@
 <app-header></app-header>
-<ul>
-  <li class="text" *ngFor="let item of items | async">
-    {{item.name}}
-  </li>
-</ul>
 
 <router-outlet></router-outlet>
+
+<app-add-activity
+  [show]="addActivityFacadeService.show$ | async"
+  (closeClick)="addActivityFacadeService.HideAddActivityClick()"
+  (createClick)="addActivityFacadeService.CreateNewActivityClick($event)"
+></app-add-activity>

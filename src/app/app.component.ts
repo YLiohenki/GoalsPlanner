@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 import { AngularFireAuth } from "@angular/fire/auth";
+import { AddActivityFacadeService } from './components/add-activity/add-activity-facade.service';
 
 @Component({
   selector: "app-root",
@@ -11,8 +12,6 @@ import { AngularFireAuth } from "@angular/fire/auth";
 })
 export class AppComponent {
   title = "GoalsPlanner";
-  items: Observable<any[]>;
-  constructor(firestore: AngularFirestore, public auth: AngularFireAuth) {
-    this.items = firestore.collection("items").valueChanges();
+  constructor(public auth: AngularFireAuth, public addActivityFacadeService: AddActivityFacadeService) {
   }
 }

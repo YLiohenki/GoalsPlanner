@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, Output, EventEmitter } from '@angular/core';
 import { Activity } from 'src/model/entities/activity';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-activity-list',
@@ -8,12 +7,16 @@ import { Observable } from 'rxjs';
   styleUrls: ['./activity-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityListComponent implements OnChanges {
+export class ActivityListComponent {
   @Input()
   public activities: Activity[];
 
+  @Output()
+  public addActivityClick = new EventEmitter<void>();
+
   constructor() { }
-  ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
-      debugger;
+
+  public AddActivity(): void {
+    this.addActivityClick.emit();
   }
 }

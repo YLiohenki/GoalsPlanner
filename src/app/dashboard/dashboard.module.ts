@@ -6,7 +6,6 @@ import { DashboardComponent } from './dashboard.component';
 import { ActivityListComponent } from './activity-list/activity-list.component';
 import { ActivityListFacadeService } from './activity-list/activity-list-facade.service';
 
-
 @NgModule({
   declarations: [DashboardComponent, ActivityListComponent],
   imports: [

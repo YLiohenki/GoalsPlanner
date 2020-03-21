@@ -1,10 +1,13 @@
 import { Action } from "@ngrx/store";
-import { Activity } from './../../entities/activity';
+import { Activity } from "./../../entities/activity";
+import { DocumentReference } from "@angular/fire/firestore/interfaces";
 
 export enum ActivitiesActionTypes {
   LoadActivities = "[Activities] Load Activities",
   LoadActivitiesSuccess = "[Activities] Load Activities Success",
-  LoadActivitiesFailure = "[Activities] Load Activities Failure"
+  LoadActivitiesFailure = "[Activities] Load Activities Failure",
+  CreateNewActivitiy = "[Activities] Create New Activitiy",
+  CreateNewActivitiySuccess = "[Activities] Create New Activitiy Success"
 }
 
 export class LoadActivitiesAction implements Action {
@@ -25,4 +28,21 @@ export class LoadActivitiesFailureAction implements Action {
   constructor(public payload: { error: Activity[] }) {}
 }
 
-export type ActivitiesAction = LoadActivitiesAction | LoadActivitiesSuccessAction | LoadActivitiesFailureAction;
+export class CreateNewActivitiyAction implements Action {
+  public readonly type: ActivitiesActionTypes.CreateNewActivitiy =
+    ActivitiesActionTypes.CreateNewActivitiy;
+  constructor(public payload: { activity: Activity }) {}
+}
+
+export class CreateNewActivitiySuccessAction implements Action {
+  public readonly type: ActivitiesActionTypes.CreateNewActivitiySuccess =
+    ActivitiesActionTypes.CreateNewActivitiySuccess;
+  constructor(public payload: { activity: Activity }) {}
+}
+
+export type ActivitiesAction =
+  | LoadActivitiesAction
+  | LoadActivitiesSuccessAction
+  | LoadActivitiesFailureAction
+  | CreateNewActivitiyAction
+  | CreateNewActivitiySuccessAction;

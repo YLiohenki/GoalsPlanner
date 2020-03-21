@@ -1,7 +1,7 @@
-import { ActivitiesActionTypes, ActivitiesAction } from './activities.actions';
-import { initialStoreState } from '../state';
-import { Activity } from 'src/model/entities/activity';
-import { EntityWrapper, EntityState } from '../../shared/entity-wrapper';
+import { ActivitiesActionTypes, ActivitiesAction } from "./activities.actions";
+import { initialStoreState } from "../state";
+import { Activity } from "src/model/entities/activity";
+import { EntityWrapper, EntityState } from "../../shared/entity-wrapper";
 
 export function activitiesReducer(
   state = initialStoreState.activities,
@@ -23,7 +23,14 @@ export function activitiesReducer(
         state: EntityState.Success,
         value: action.payload.activities
       };
+    case ActivitiesActionTypes.CreateNewActivitiySuccess:
+      if (state.state == EntityState.Success) {
+        return {
+          state: EntityState.Success,
+          value: [...state.value, action.payload.activity]
+        };
+      } else return state;
     default:
       return state;
   }
-};
+}
