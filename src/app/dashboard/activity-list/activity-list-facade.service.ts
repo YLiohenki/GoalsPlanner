@@ -16,7 +16,7 @@ export class ActivityListFacadeService {
         this.activities$ = this.store.select(s => s.activities).pipe(filter(ew => ew.state === EntityState.Success), map(ew => ew.value));
     }
 
-    public AddActivityClick(): void {
+    public OnAddActivityClick(): void {
         this.store.dispatch(new ShowAddActivityAction());
     }
 }

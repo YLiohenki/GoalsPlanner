@@ -1,0 +1,3 @@
+<input type="date" [ngModel]="date" (ngModelChange)="OnDateChange($event)" />
+<span *ngFor="let entry of entries"><p>{{entry.name}}</p></span>
+<button (click)="OnAddEntry()">Add New Entry</button>

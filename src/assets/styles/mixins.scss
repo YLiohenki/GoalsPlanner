@@ -1,0 +1,27 @@
+@mixin bigIcon() {
+  width: 32px;
+  height: 32px;
+}
+
+@mixin closeIcon() {
+  position: relative;
+  opacity: 0.3;
+  &:hover {
+    opacity: 1;
+  }
+  &:before,
+  &:after {
+    position: absolute;
+    left: 50%;
+    content: " ";
+    height: 100%;
+    width: 2px;
+    background-color: #333;
+  }
+  &:before {
+    transform: rotate(45deg);
+  }
+  &:after {
+    transform: rotate(-45deg);
+  }
+}

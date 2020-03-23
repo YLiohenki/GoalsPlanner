@@ -20,11 +20,11 @@ export class AddActivityComponent {
 
   constructor() {}
 
-  public CloseModal(): void {
+  public OnCloseModal(): void {
     this.closeClick.emit();
   }
 
-  public Create(): void {
+  public OnCreateClick(): void {
     this.createClick.emit(new Activity(this.name, null));
   }
 }

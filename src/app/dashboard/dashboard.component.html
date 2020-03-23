@@ -1,5 +1,10 @@
 <p>dashboard works!</p>
 <app-activity-list
   [activities]="activityListFacadeService.activities$ | async"
-  (addActivityClick)="activityListFacadeService.AddActivityClick()"
+  (addActivityClick)="activityListFacadeService.OnAddActivityClick()"
 ></app-activity-list>
+<app-entries
+  [entries]="entriesFacadeService.entries$"
+  (addActivityClick)="entriesFacadeService.OnAddEntryClick()"
+  (changeDate)="entriesFacadeService.OnDateChange"
+></app-entries>

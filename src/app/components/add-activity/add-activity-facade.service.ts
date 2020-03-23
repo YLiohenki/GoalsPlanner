@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { IStoreState } from "../../../model/store/state";
-import { HideAddActivityAction, ShowAddActivityAction } from "src/model/store/ui/ui.actions";
+import { HideAddActivityAction } from "src/model/store/ui/ui.actions";
 import { CreateNewActivitiyAction } from "src/model/store/activities/activities.actions";
 import { Activity } from "src/model/entities/activity";
 
@@ -14,11 +14,11 @@ export class AddActivityFacadeService {
     this.show$ = this.store.select(s => s.ui.showAddActivity);
   }
 
-  public HideAddActivityClick(): void {
+  public OnHideAddActivityClick(): void {
     this.store.dispatch(new HideAddActivityAction());
   }
 
-  public CreateNewActivityClick(activity: Activity): void {
+  public OnCreateNewActivityClick(activity: Activity): void {
     this.store.dispatch(new HideAddActivityAction());
     this.store.dispatch(new CreateNewActivitiyAction({ activity: activity }));
   }

@@ -4,6 +4,14 @@
 
 <app-add-activity
   [show]="addActivityFacadeService.show$ | async"
-  (closeClick)="addActivityFacadeService.HideAddActivityClick()"
-  (createClick)="addActivityFacadeService.CreateNewActivityClick($event)"
+  (closeClick)="addActivityFacadeService.OnHideAddActivityClick()"
+  (createClick)="addActivityFacadeService.OnCreateNewActivityClick($event)"
 ></app-add-activity>
+
+<app-add-entry
+  [show]="addEntryFacadeService.show$ | async"
+  [initialDate]="addEntryFacadeService.initialDate$ | async"
+  [activities]="addEntryFacadeService.activities$ | async"
+  (closeClick)="addEntryFacadeService.OnHideAddEntryClick()"
+  (createClick)="addEntryFacadeService.OnCreateNewEntryClick($event)"
+></app-add-entry>

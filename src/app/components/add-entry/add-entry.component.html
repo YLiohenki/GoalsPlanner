@@ -1,0 +1,23 @@
+<div class="addEntryModal" [ngClass]="{ show: show }">
+    <div class="body">
+      <header>
+        <h3>Add Entry</h3>
+        <a class="close" (click)="OnCloseModal()"></a>
+      </header>
+      <div class="body">
+        <div class="row">
+          <input name="date" type="date" [(ngModel)]="date" />
+        </div>
+        <div class="row">
+          <select name="activity" [(ngModel)]="activity">
+            <option [value]="activity" *ngFor="let activity of activities">{{activity.name}}</option>
+          </select>
+        </div>
+        <div class="row">
+          <input name="amount" type="number" [(ngModel)]="amount" />
+        </div>
+      </div>
+      <div class="control"><button (click)="OnCreateClick()">Create</button></div>
+    </div>
+  </div>
+  

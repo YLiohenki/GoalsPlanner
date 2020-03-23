@@ -16,7 +16,7 @@ export class ActivityListComponent {
 
   constructor() { }
 
-  public AddActivity(): void {
+  public OnAddActivity(): void {
     this.addActivityClick.emit();
   }
 }

@@ -5,10 +5,20 @@ import {
   QueryDocumentSnapshot,
   DocumentSnapshot
 } from "@angular/fire/firestore";
-import { DocumentSnapshotToActivites } from './documentsnapshot-to-activities';
+import { DocumentSnapshotToActivy } from "./documentsnapshot-to-activity";
+import { Observable, forkJoin } from "rxjs";
+import { Injectable } from '@angular/core';
 
+@Injectable({
+  providedIn: "root"
+})
 export class QuerySnapshotToActivites {
-  public static Map(collection: QuerySnapshot<DocumentData>): Activity[] {
-    return collection.docs.map((doc: QueryDocumentSnapshot<DocumentData>) => DocumentSnapshotToActivites.Map(<DocumentSnapshot<DocumentData>>doc));
+  constructor(private documentSnapshotToActivy: DocumentSnapshotToActivy) {}
+  public Map(collection: QuerySnapshot<DocumentData>): Observable<Activity[]> {
+    return forkJoin(
+      collection.docs.map((doc: QueryDocumentSnapshot<DocumentData>) =>
+        this.documentSnapshotToActivy.Map(<DocumentSnapshot<DocumentData>>doc)
+      )
+    );
   }
 }

@@ -1,15 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ofType, Actions, Effect } from "@ngrx/effects";
 import { EMPTY, from } from "rxjs";
-import {
-  map,
-  mergeMap,
-  catchError,
-  takeUntil,
-  takeWhile,
-  switchMap,
-  first
-} from "rxjs/operators";
+import { map, mergeMap, catchError, switchMap, first } from "rxjs/operators";
 import {
   ActivitiesActionTypes,
   ActivitiesAction,
@@ -28,7 +20,8 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { flatMap, filter, take } from "rxjs/operators";
 import { User } from "firebase";
 import { QuerySnapshotToActivites } from "src/model/mappers/querysnapshot-to-activities";
-import { DocumentSnapshotToActivites } from "src/model/mappers/documentsnapshot-to-activities";
+import { DocumentSnapshotToActivy } from "src/model/mappers/documentsnapshot-to-activity";
+import { Activity } from "src/model/entities/activity";
 
 @Injectable()
 export class ActivitiesEffect {
@@ -41,11 +34,15 @@ export class ActivitiesEffect {
         .collection(`/users/${user.uid}/activities`)
         .get()
         .pipe(
-          map(
-            (collection: QuerySnapshot<DocumentData>) =>
-              new LoadActivitiesSuccessAction({
-                activities: QuerySnapshotToActivites.Map(collection)
-              })
+          switchMap((collection: QuerySnapshot<DocumentData>) =>
+            this.querySnapshotToActivites.Map(collection).pipe(
+              map(
+                (activities: Activity[]) =>
+                  new LoadActivitiesSuccessAction({
+                    activities: activities
+                  })
+              )
+            )
           ),
           catchError((error: any) => {
             console.error(error);
@@ -60,8 +57,7 @@ export class ActivitiesEffect {
     ofType<ActivitiesAction>(ActivitiesActionTypes.CreateNewActivitiy),
     mergeMap((action: CreateNewActivitiyAction) =>
       this.auth.user.pipe(
-        filter(user => user != null),
-        take(1),
+        first(user => user != null),
         flatMap((user: User) =>
           from(
             this.afs
@@ -70,11 +66,15 @@ export class ActivitiesEffect {
           )
         ),
         switchMap((ref: DocumentReference) => from(ref.get())),
-        map(
-          (doc: DocumentSnapshot<DocumentData>) =>
-            new CreateNewActivitiySuccessAction({
-              activity: DocumentSnapshotToActivites.Map(doc)
-            })
+        switchMap((doc: DocumentSnapshot<DocumentData>) =>
+          this.documentSnapshotToActivy.Map(doc).pipe(
+            map(
+              (activity: Activity) =>
+                new CreateNewActivitiySuccessAction({
+                  activity: activity
+                })
+            )
+          )
         )
       )
     ),
@@ -82,11 +82,13 @@ export class ActivitiesEffect {
       console.error(error);
       return EMPTY;
     })
-  );
+  )
 
   constructor(
     private actions$: Actions,
     private afs: AngularFirestore,
-    public auth: AngularFireAuth
+    private auth: AngularFireAuth,
+    private querySnapshotToActivites: QuerySnapshotToActivites,
+    private documentSnapshotToActivy: DocumentSnapshotToActivy
   ) {}
 }
