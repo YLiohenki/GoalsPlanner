@@ -1,11 +1,20 @@
-import { Component, OnInit, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Activity } from 'src/model/entities/activity';
-import { Entry } from 'src/model/entities/entry';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from "@angular/core";
+import { Activity } from "src/model/entities/activity";
+import { Entry } from "src/model/entities/entry";
+import { toUTCDateTimeStamp } from "src/model/helpers/date";
 
 @Component({
-  selector: 'app-add-entry',
-  templateUrl: './add-entry.component.html',
-  styleUrls: ['./add-entry.component.scss']
+  selector: "app-add-entry",
+  templateUrl: "./add-entry.component.html",
+  styleUrls: ["./add-entry.component.scss"]
 })
 export class AddEntryComponent implements OnChanges {
   @Output()
@@ -31,8 +40,7 @@ export class AddEntryComponent implements OnChanges {
   constructor() {}
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.show != null && changes.show.currentValue == true)
-    {
+    if (changes.show != null && changes.show.currentValue == true) {
       this.amount = 1;
       this.date = this.initialDate;
     }
@@ -43,6 +51,12 @@ export class AddEntryComponent implements OnChanges {
   }
 
   public OnCreateClick(): void {
-    this.createClick.emit(null);
+    this.createClick.emit(
+      new Entry(null, this.activity, toUTCDateTimeStamp(this.date), this.amount)
+    );
+  }
+
+  public OnDateChange(newDate: string): void {
+    this.date = new Date(newDate);
   }
 }

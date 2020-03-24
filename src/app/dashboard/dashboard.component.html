@@ -4,7 +4,7 @@
   (addActivityClick)="activityListFacadeService.OnAddActivityClick()"
 ></app-activity-list>
 <app-entries
-  [entries]="entriesFacadeService.entries$"
+  [entries]="entriesFacadeService.entries$ | async"
   (addActivityClick)="entriesFacadeService.OnAddEntryClick()"
-  (changeDate)="entriesFacadeService.OnDateChange"
+  (changeDate)="entriesFacadeService.OnDateChange($event)"
 ></app-entries>

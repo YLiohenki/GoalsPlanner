@@ -3,7 +3,6 @@ import { NgModule } from "@angular/core";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { environment } from "src/environments/environment";
 import { AngularFireModule } from "@angular/fire";
 import "firebase/firestore";
 import { ServiceWorkerModule } from "@angular/service-worker";
@@ -24,6 +23,8 @@ import { DocumentSnapshotToEntry } from "src/model/mappers/documentsnapshot-to-e
 import { DocumentSnapshotToActivy } from "src/model/mappers/documentsnapshot-to-activity";
 import { EntryToDocument } from "src/model/mappers/entry-to-document";
 import { AddEntryFacadeService } from './components/add-entry/add-entry-facade.service';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { AddEntryFacadeService } from './components/add-entry/add-entry-facade.s
     EffectsModule.forRoot([ActivitiesEffect, EntriesEffect]),
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production
-    })
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 15, logOnly: environment.production })
   ],
   providers: [
     AddActivityFacadeService,

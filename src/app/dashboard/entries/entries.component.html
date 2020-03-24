@@ -1,3 +1,13 @@
-<input type="date" [ngModel]="date" (ngModelChange)="OnDateChange($event)" />
-<span *ngFor="let entry of entries"><p>{{entry.name}}</p></span>
+<form (submit)="OnInputFinish()" action="#">
+  <input
+    name="date"
+    type="date"
+    [ngModel]="date | date: 'yyyy-MM-dd'"
+    (ngModelChange)="OnDateChange($event)"
+    (blur)="OnInputFinish()"
+  />
+</form>
+<span *ngFor="let entry of entries">
+  <p>{{ entry.activity.name }} - {{ entry.amount }}</p>
+</span>
 <button (click)="OnAddEntry()">Add New Entry</button>

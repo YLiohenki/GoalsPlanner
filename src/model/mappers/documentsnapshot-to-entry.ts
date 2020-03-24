@@ -23,8 +23,8 @@ export class DocumentSnapshotToEntry {
         map((activities: EntityWrapper<Activity[]>) => {
           return new Entry(
             doc.id,
-            activities.value.find(a => a.id == docData.activity),
-            docData.date,
+            activities.value.find(a => a.id == docData.activity.id),
+            docData.date.seconds * 1000,
             docData.amount
           );
         })

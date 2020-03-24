@@ -20,7 +20,6 @@ import {
   CreateNewEntryAction,
   CreateNewEntrySuccessAction
 } from "./entries.actions";
-import { getDateUTCTimestamp } from "src/model/helpers/date";
 import { QuerySnapshotToEntries } from "src/model/mappers/querysnapshot-to-entries";
 import { DocumentSnapshotToEntry } from "src/model/mappers/documentsnapshot-to-entry";
 import { Entry } from "./../../entities/entry";
@@ -37,7 +36,17 @@ export class EntriesEffect {
         mergeMap((user: User) =>
           this.afs
             .collection(`/users/${user.uid}/entries`, ref =>
-              ref.where("date", "==", getDateUTCTimestamp(new Date()))
+              ref
+                .where(
+                  "date",
+                  ">=",
+                  action.payload.startDate
+                )
+                .where(
+                  "date",
+                  "<=",
+                  action.payload.endDate
+                )
             )
             .get()
             .pipe(
@@ -71,7 +80,7 @@ export class EntriesEffect {
         this.entryToDocument.Map(action.payload.entry)
       ]).pipe(
         flatMap(([user, doc]: [User, any]) =>
-          from(this.afs.collection(`/users/${user.uid}/activities`).add(doc))
+          from(this.afs.collection(`/users/${user.uid}/entries`).add(doc))
         ),
         switchMap((ref: DocumentReference) => from(ref.get())),
         switchMap((doc: DocumentSnapshot<DocumentData>) =>
