@@ -73,9 +73,8 @@ function mutateState(
   while (date <= endDate) {
     var timestamp = toUTCDateTimeStamp(date);
     var newValue =
-      entries != null ? entries.filter(e => e.date == date) : entries;
-    var newSuccessValue =
-      entityState == EntityState.Success && result.history[timestamp] == null;
+      entries != null ? entries.filter(e => e.timestamp == timestamp) : entries;
+    var newSuccessValue = entityState == EntityState.Success;
     var mutateOldValue =
       result.history[timestamp] != null &&
       (result.history[timestamp].state !== entityState ||

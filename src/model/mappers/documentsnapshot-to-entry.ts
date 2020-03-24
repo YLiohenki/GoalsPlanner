@@ -6,7 +6,7 @@ import { IStoreState } from "../store/state";
 import { map, first } from "rxjs/operators";
 import { Activity } from "../entities/activity";
 import { EntityWrapper, EntityState } from "../shared/entity-wrapper";
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 @Injectable({
   providedIn: "root"
@@ -20,14 +20,19 @@ export class DocumentSnapshotToEntry {
       .select(s => s.activities)
       .pipe(
         first(ew => ew.state == EntityState.Success),
-        map((activities: EntityWrapper<Activity[]>) => {
-          return new Entry(
-            doc.id,
-            activities.value.find(a => a.id == docData.activity.id),
-            docData.date.seconds * 1000,
-            docData.amount
-          );
-        })
+        map(
+          (activities: EntityWrapper<Activity[]>) =>
+            new Entry(
+              doc.id,
+              activities.value.find(
+                a =>
+                  a.id ==
+                  docData.activity.id
+              ),
+              docData.date.seconds * 1000,
+              docData.amount
+            )
+        )
       );
   }
 }

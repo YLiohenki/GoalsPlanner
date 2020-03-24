@@ -37,16 +37,8 @@ export class EntriesEffect {
           this.afs
             .collection(`/users/${user.uid}/entries`, ref =>
               ref
-                .where(
-                  "date",
-                  ">=",
-                  action.payload.startDate
-                )
-                .where(
-                  "date",
-                  "<=",
-                  action.payload.endDate
-                )
+                .where("date", ">=", action.payload.startDate)
+                .where("date", "<=", action.payload.endDate)
             )
             .get()
             .pipe(
@@ -60,15 +52,16 @@ export class EntriesEffect {
                       })
                   )
                 )
-              ),
-              catchError((error: any) => {
-                console.error(error);
-                return EMPTY;
-              })
+              )
+              
             )
         )
       )
-    )
+    ),
+    catchError((error: any) => {
+      console.error(error);
+      return EMPTY;
+    })
   );
 
   @Effect()
@@ -78,22 +71,20 @@ export class EntriesEffect {
       forkJoin([
         this.auth.user.pipe(first(user => user != null)),
         this.entryToDocument.Map(action.payload.entry)
-      ]).pipe(
-        flatMap(([user, doc]: [User, any]) =>
-          from(this.afs.collection(`/users/${user.uid}/entries`).add(doc))
-        ),
-        switchMap((ref: DocumentReference) => from(ref.get())),
-        switchMap((doc: DocumentSnapshot<DocumentData>) =>
-          this.documentSnapshotToEntry.Map(doc).pipe(
-            map(
-              (entry: Entry) =>
-                new CreateNewEntrySuccessAction({
-                  entry: entry
-                })
-            )
-          )
-        )
-      )
+      ])
+    ),
+    flatMap(([user, doc]: [User, any]) =>
+      from(this.afs.collection(`/users/${user.uid}/entries`).add(doc))
+    ),
+    switchMap((ref: DocumentReference) => from(ref.get())),
+    switchMap((doc: DocumentSnapshot<DocumentData>) =>
+      this.documentSnapshotToEntry.Map(doc)
+    ),
+    map(
+      (entry: Entry) =>
+        new CreateNewEntrySuccessAction({
+          entry: entry
+        })
     )
   );
 

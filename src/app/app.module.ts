@@ -25,6 +25,7 @@ import { EntryToDocument } from "src/model/mappers/entry-to-document";
 import { AddEntryFacadeService } from './components/add-entry/add-entry-facade.service';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { ActivityToDocument } from 'src/model/mappers/activity-to-document';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { environment } from '../environments/environment';
     QuerySnapshotToEntries,
     DocumentSnapshotToEntry,
     DocumentSnapshotToActivy,
-    EntryToDocument
+    EntryToDocument,
+    ActivityToDocument
   ],
   bootstrap: [AppComponent]
 })

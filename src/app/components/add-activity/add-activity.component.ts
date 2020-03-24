@@ -25,6 +25,6 @@ export class AddActivityComponent {
   }
 
   public OnCreateClick(): void {
-    this.createClick.emit(new Activity(this.name, null));
+    this.createClick.emit(new Activity(null, this.name));
   }
 }
