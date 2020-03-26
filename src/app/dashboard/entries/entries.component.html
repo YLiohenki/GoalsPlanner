@@ -11,3 +11,18 @@
   <p>{{ entry.activity.name }} - {{ entry.amount }}</p>
 </span>
 <button (click)="OnAddEntry()">Add New Entry</button>
+
+<div class="wrapper">
+  <div class="header">
+    <div class="header_control"><i class="fas fa-plus"></i></div>
+    <div class="header_date_wrapper">
+      <div class="header_date" *ngFor="let date of dates">
+        <div>{{ getWeekdayName(date).substring(0, 3) }}</div>
+        <div>{{ date.getDate() }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="list">
+    <div class="row" *ngFor="let activity of activities"></div>
+  </div>
+</div>

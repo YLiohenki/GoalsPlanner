@@ -17,7 +17,7 @@ import {
   DocumentSnapshot
 } from "@angular/fire/firestore";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { flatMap, filter, take } from "rxjs/operators";
+import { flatMap } from "rxjs/operators";
 import { User } from "firebase";
 import { QuerySnapshotToActivites } from "src/model/mappers/querysnapshot-to-activities";
 import { DocumentSnapshotToActivy } from "src/model/mappers/documentsnapshot-to-activity";
@@ -29,7 +29,8 @@ export class ActivitiesEffect {
   @Effect()
   public loadActivities$ = this.actions$.pipe(
     ofType<ActivitiesAction>(ActivitiesActionTypes.LoadActivities),
-    switchMap(() => this.auth.user.pipe(first(user => user != null))),
+    switchMap(() => this.auth.user),
+    first(user => user != null),
     mergeMap((user: User) =>
       this.afs.collection(`/users/${user.uid}/activities`).get()
     ),

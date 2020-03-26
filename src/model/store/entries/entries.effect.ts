@@ -10,7 +10,7 @@ import {
   DocumentSnapshot
 } from "@angular/fire/firestore";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { flatMap, filter, take } from "rxjs/operators";
+import { flatMap } from "rxjs/operators";
 import { User } from "firebase";
 import {
   EntriesAction,

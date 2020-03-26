@@ -7,6 +7,8 @@ import {
   OnChanges
 } from "@angular/core";
 import { Entry } from "src/model/entities/entry";
+import { Activity } from "src/model/entities/activity";
+import { getWeekdayName } from "src/model/helpers/date";
 
 @Component({
   selector: "app-entries",
@@ -17,12 +19,17 @@ export class EntriesComponent implements OnInit {
   @Input()
   public entries: Entry[];
 
+  @Input()
+  public activities: Activity[];
+
   @Output()
   public addActivityClick = new EventEmitter<void>();
 
   @Output()
   public changeDate = new EventEmitter<Date>();
 
+  public dates: Date[];
+  public getWeekdayName: (date: Date) => string = getWeekdayName;
   public date: Date;
   private timeout: number;
 
@@ -31,6 +38,21 @@ export class EntriesComponent implements OnInit {
   public ngOnInit(): void {
     this.date = new Date();
     this.changeDate.emit(this.date);
+    this.dates = [];
+    var date = new Date(this.date);
+    this.dates.push(date);
+    date = new Date(this.date);
+    date.setDate(date.getUTCDate() - 1);
+    this.dates.push(date);
+    date = new Date(this.date);
+    date.setDate(date.getUTCDate() - 2);
+    this.dates.push(date);
+    date = new Date(this.date);
+    date.setDate(date.getUTCDate() - 3);
+    this.dates.push(date);
+    date = new Date(this.date);
+    date.setDate(date.getUTCDate() - 4);
+    this.dates.push(date);
   }
 
   public OnDateChange(newDate: string): void {

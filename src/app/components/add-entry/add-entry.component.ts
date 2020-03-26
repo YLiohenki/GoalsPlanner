@@ -51,6 +51,7 @@ export class AddEntryComponent implements OnChanges {
   }
 
   public OnCreateClick(): void {
+    debugger;
     this.createClick.emit(
       new Entry(null, this.activity, toUTCDateTimeStamp(this.date), this.amount)
     );
