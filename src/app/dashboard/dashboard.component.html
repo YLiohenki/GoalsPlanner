@@ -7,5 +7,5 @@
   [entries]="entriesFacadeService.entries$ | async"
   [activities]="entriesFacadeService.activities$ | async"
   (addActivityClick)="entriesFacadeService.OnAddEntryClick()"
-  (changeDate)="entriesFacadeService.OnDateChange($event)"
+  (changeDatesInterval)="entriesFacadeService.OnDatesIntervalChange($event)"
 ></app-entries>

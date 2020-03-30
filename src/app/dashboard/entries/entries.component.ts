@@ -4,16 +4,17 @@ import {
   Output,
   Input,
   OnInit,
-  OnChanges
+  ChangeDetectionStrategy
 } from "@angular/core";
 import { Entry } from "src/model/entities/entry";
 import { Activity } from "src/model/entities/activity";
-import { getWeekdayName } from "src/model/helpers/date";
+import { getWeekdayName, toUTCDateTimeStamp } from "src/model/helpers/date";
 
 @Component({
   selector: "app-entries",
   templateUrl: "./entries.component.html",
-  styleUrls: ["./entries.component.scss"]
+  styleUrls: ["./entries.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EntriesComponent implements OnInit {
   @Input()
@@ -26,7 +27,7 @@ export class EntriesComponent implements OnInit {
   public addActivityClick = new EventEmitter<void>();
 
   @Output()
-  public changeDate = new EventEmitter<Date>();
+  public  changeDatesInterval= new EventEmitter<Date[]>();
 
   public dates: Date[];
   public getWeekdayName: (date: Date) => string = getWeekdayName;
@@ -36,8 +37,7 @@ export class EntriesComponent implements OnInit {
   constructor() {}
 
   public ngOnInit(): void {
-    this.date = new Date();
-    this.changeDate.emit(this.date);
+    this.date =  new Date(toUTCDateTimeStamp(new Date()));
     this.dates = [];
     var date = new Date(this.date);
     this.dates.push(date);
@@ -53,6 +53,7 @@ export class EntriesComponent implements OnInit {
     date = new Date(this.date);
     date.setDate(date.getUTCDate() - 4);
     this.dates.push(date);
+    this.changeDatesInterval.emit(this.dates);
   }
 
   public OnDateChange(newDate: string): void {
@@ -63,15 +64,23 @@ export class EntriesComponent implements OnInit {
     }
     this.timeout = window.setTimeout(() => {
       this.timeout = null;
-      this.changeDate.emit(this.date);
+      this.changeDatesInterval.emit(this.dates);
     }, 1000);
   }
 
   public OnInputFinish(): void {
     if (this.timeout) {
       window.clearTimeout(this.timeout);
-      this.changeDate.emit(this.date);
+      this.changeDatesInterval.emit(this.dates);
     }
+  }
+
+  public getEntry(activity: Activity, date: Date) {
+    if (this.entries == null) return null;
+    var timestamp = toUTCDateTimeStamp(date);
+    return this.entries.find(
+      e => e.activity.id == activity.id && e.timestamp == timestamp
+    );
   }
 
   public OnAddEntry(): void {

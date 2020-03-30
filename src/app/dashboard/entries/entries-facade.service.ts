@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { IStoreState } from "../../../model/store/state";
 import { map, filter, take } from "rxjs/operators";
-import { EntityState } from "src/model/shared/entity-wrapper";
-import { Observable } from "rxjs";
+import { EntityState, EntityWrapper } from "src/model/shared/entity-wrapper";
+import { Observable, combineLatest } from "rxjs";
 import { Entry } from "src/model/entities/entry";
 import { toUTCDateTimeStamp } from "src/model/helpers/date";
 import { ShowAddEntryAction } from "src/model/store/ui/ui.actions";
@@ -17,19 +17,27 @@ export class EntriesFacadeService {
   public entries$: Observable<Entry[]>;
   public activities$: Observable<Activity[]>;
 
-  private timestamp: number;
+  private dates: Date[];
 
   constructor(private store: Store<IStoreState>) {}
 
-  public OnDateChange(date: Date): void {
-    this.timestamp = toUTCDateTimeStamp(date);
-    var endDate = this.timestamp;
-    this.entries$ = this.store
-      .select(s => s.entries.history[this.timestamp])
-      .pipe(
-        filter(ew => ew != null && ew.state === EntityState.Success),
-        map(ew => ew.value)
-      );
+  public OnDatesIntervalChange(dates: Date[]): void {
+    this.dates = dates;
+    var endTimeStamp = toUTCDateTimeStamp(dates[0]);
+    var startTimeStamp = toUTCDateTimeStamp(dates[dates.length - 1]);
+
+    this.entries$ = combineLatest(
+      dates.map(date =>
+        this.store.select(s => s.entries.history[toUTCDateTimeStamp(date)])
+      )
+    ).pipe(
+      filter((ewls: EntityWrapper<Entry[]>[]) =>
+        ewls.every(ew => ew != null && ew.state === EntityState.Success)
+      ),
+      map(ewls =>
+        ewls.map(ew => ew.value).reduce((es1, es2) => es1.concat(es2))
+      )
+    );
     this.activities$ = this.store
       .select(s => s.activities)
       .pipe(
@@ -37,7 +45,7 @@ export class EntriesFacadeService {
         map(ew => ew.value)
       );
     this.store
-      .select(s => s.entries[this.timestamp])
+      .select(s => s.entries[startTimeStamp])
       .pipe(take(1))
       .subscribe(ew => {
         if (
@@ -47,8 +55,8 @@ export class EntriesFacadeService {
         ) {
           this.store.dispatch(
             new LoadEntriesAction({
-              startDate: new Date(this.timestamp),
-              endDate: new Date(endDate)
+              startDate: new Date(startTimeStamp),
+              endDate: new Date(endTimeStamp)
             })
           );
         }
@@ -57,7 +65,9 @@ export class EntriesFacadeService {
 
   public OnAddEntryClick(): void {
     this.store.dispatch(
-      new ShowAddEntryAction({ date: new Date(this.timestamp) })
+      new ShowAddEntryAction({
+        date: new Date(toUTCDateTimeStamp(this.dates[this.dates.length - 1]))
+      })
     );
   }
 }

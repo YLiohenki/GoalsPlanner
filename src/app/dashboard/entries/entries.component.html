@@ -23,6 +23,13 @@
     </div>
   </div>
   <div class="list">
-    <div class="row" *ngFor="let activity of activities">{{activity.name}}</div>
+    <div class="row" *ngFor="let activity of activities">
+      <div class="row_name">{{ activity.name }}</div>
+      <div class="row_dates">
+        <div class="row_date" *ngFor="let date of dates">
+          <div>{{ getEntry(activity, date)?.amount }}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
