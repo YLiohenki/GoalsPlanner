@@ -30,6 +30,33 @@
     }
   }
 
+  .row {
+    height: 28px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .row_dates {
+      display: flex;
+      flex-direction: row;
+
+      .row_date {
+        display: flex;
+        flex-direction: column;
+        width: 30px;
+        justify-content: center;
+
+        div {
+          height: 14px;
+          font-size: 14px;
+          line-height: 14px;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+        }
+      }
+    }
+  }
   .list {
     display: flex;
     flex-direction: column;
@@ -37,6 +64,12 @@
     .row {
       display: flex;
       flex-direction: row;
+      height: 20px;
+      line-height: 20px;
+
+      &:nth-child(even) {
+        background: #e4e4e4;
+      }
     }
   }
 }
